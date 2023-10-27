@@ -28,6 +28,7 @@ function App() {
   }, Math.max(-1, ads.length - 1));
   return (
     <div className="App">
+      <img className="logo-img" src="/logo.png" alt="gymbuddy" />
       <header>
         <button>Upload New ad</button>
         <LoginButton />

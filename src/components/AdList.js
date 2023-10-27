@@ -19,7 +19,7 @@ export default function AdList({ ads, adIndex, handleAdIndex }) {
   });
   return (
     <section id="ad-list">
-      <h2 className="title">Your ads</h2>
+      <h2 className="title">My ads</h2>
       <div className="divider"></div>
       <ol className="list">{adItems}</ol>
     </section>

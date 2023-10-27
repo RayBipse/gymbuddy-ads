@@ -6,8 +6,8 @@
 :root {
   --bg-color: #f6f6f6;
   --section-bg-color: #fafafa;
-  --accent-color: #47B9D2;
-  --accent-color-hover: #a0dfed;
+  --accent-color: rgb(77, 169, 217);
+  --accent-color-hover: rgb(77, 169, 217);
   --bold-color: #454545;
   --light-color: #A7A7A7;
 }
@@ -20,20 +20,23 @@ body {
 button {
   background: none;
   background-color: var(--section-bg-color);
-  color: var(--accent-color);
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
+	color: var(--accent-color);
+	border: none;
+	padding: 8px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
   border: solid 1px var(--accent-color);
   border-radius: 5px;
-  transition: all 0.1s ease-in;
+  transition: all .1s ease-in;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+  }
 }
-button button:hover {
-  border-color: var(--accent-color-hover);
-  color: var(--accent-color-hover);
-}
+
 
 .App {
   padding-left: 5vw;
@@ -45,20 +48,40 @@ button button:hover {
   gap: 20px 20px;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1150px) {
   .App {
-    padding-left: 16vw;
-    padding-right: 16vw;
+    padding-left: 15vw;
+    padding-right: 15vw;
   }
 }
+
+@media (max-width: 650px) {
+  section#ad-list {
+    flex-basis: 90%;
+  }
+  section#dashboard {
+    flex-basis: 90%;
+    & .metric-box {
+      flex-basis: 100%;
+    }
+  }
+  body .logo-img {
+    width: 40vw;
+  }
+}
+
+.logo-img {
+  width: 20vw;
+}
+
 .App > header {
-  display: flex;
+  display:flex;
   justify-content: space-between;
   width: 100%;
+  * {
+    padding: 10px 20px;
+  }
   padding-bottom: 30px;
-}
-.App > header * {
-  padding: 10px 20px;
 }
 
 .App > section {
@@ -73,75 +96,80 @@ button button:hover {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-}
-#ad-list .title {
-  color: var(--bold-color);
-  padding-bottom: 10%;
-  width: 100%;
-  text-align: center;
-}
-#ad-list .divider {
-  height: 1px;
-  width: 100%;
-  background-color: var(--bold-color);
-}
-#ad-list .list {
-  width: 100%;
-  list-style: none;
-}
-#ad-list .list li {
-  width: 100%;
-  margin-top: 25px;
-}
-#ad-list .list li button {
-  font-size: 1.2em;
-  height: 40px;
-  width: 100%;
-}
-#ad-list .list li button.selected {
-  border-color: var(--accent-color-hover);
-  color: var(--accent-color-hover);
+  .title {
+    color: var(--bold-color);
+    padding-bottom: 10%;
+    width: 100%;
+    text-align: center;
+  }
+  .divider {
+    height: 1px;
+    width: 100%;
+    background-color: var(--bold-color);
+  }
+  .list {
+    width: 100%;
+    list-style: none;
+    & li {
+      width: 100%;
+      margin-top: 25px;
+      & button {
+        font-size: 1.2em;
+        height: 40px;
+        width: 100%;
+        &.selected {
+          background-color: var(--accent-color-hover);
+          border-color: var(--accent-color-hover);
+          color: var(--bg-color);
+        }
+      }
+    }
+  }
 }
 
 #dashboard {
   padding: 0 40px 20px 40px;
   flex-basis: 50%;
-}
-#dashboard .top {
-  padding: 20px 0;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-}
-#dashboard .top .title {
-  padding: 5px 10px;
-}
-#dashboard .top #pause-button {
-  padding: 5px 10px;
-}
-#dashboard .metric-box-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 10px 5px;
-}
-#dashboard .metric-box-container .metric-box {
-  border: 1px solid var(--light-color);
-  border-radius: 5px;
-}
-#dashboard .metric-box-container .metric-box .metric-label {
-  text-align: center;
-  color: var(--light-color);
-  padding: 5px 10px;
-}
-#dashboard .metric-box-container .metric-box .metric-value {
-  font-weight: bold;
-  font-size: 120%;
-  text-align: center;
-  padding: 15px 30px;
+  .top {
+    padding: 20px 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    .title {
+      padding: 5px 10px;
+    }
+    #pause-button {
+      padding: 5px 10px;
+    }
+  }
+  .metric-box-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px 2%;
+    &:after {
+      content: "";
+      flex: auto;
+    }
+    .metric-box {
+      border: 1px solid var(--light-color);
+      border-radius: 5px;
+      .metric-label {
+        text-align: center;
+        color: var(--light-color);
+        padding: 5px 10px;
+      }
+      .metric-value {
+        font-weight: bold;
+        font-size: 120%;
+        text-align: center;
+        padding: 15px 30px;
+      }
+    }
+  }
 }
 
 .no-display {
   display: none;
-}/*# sourceMappingURL=App.css.map */
+}
