@@ -1,15 +1,18 @@
-export function LoginButton() {
-  return <button>Login</button>;
+export function LoginButton({ toggleLoginModal }) {
+  return <button onClick={toggleLoginModal}>Login</button>;
 }
 
-export function LoginPopup() {
+export function LoginPopup({ isLoginModalOpen }) {
   return (
-    <section id="login-popup" className="no-display">
-      <div>Login</div>
-      <div>Email</div>
-      <input type="email"></input>
-      <div>Password</div>
-      <input type="password"></input>
+    <section id="login-popup" className={isLoginModalOpen ? "" : "no-display"}>
+      <h2>Login</h2>
+      <form method="post">
+        <label>Email</label>
+        <input type="email"></input>
+        <label>Password</label>
+        <input type="password"></input>
+        <button type="submit">Log in</button>
+      </form>
     </section>
   );
 }
