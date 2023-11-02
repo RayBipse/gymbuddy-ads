@@ -8,7 +8,7 @@ export default function Dashboard({ ads, adIndex }) {
     screenshots: 0,
   };
   ads.forEach((ad) => {
-    if (ad.key == adIndex) cur_ad = ad;
+    if (ad.key === adIndex) cur_ad = ad;
   });
   return (
     <section id="dashboard">
@@ -29,6 +29,9 @@ export default function Dashboard({ ads, adIndex }) {
           <div className="metric-label">screenshots</div>
           <div className="metric-value">{cur_ad.screenshots}</div>
         </div>
+      </div>
+      <div className="image-container">
+        <img src={cur_ad.image_src}></img>
       </div>
     </section>
   );
