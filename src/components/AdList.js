@@ -1,6 +1,5 @@
 export default function AdList({ ads, adIndex, handleAdIndex }) {
   function adOnClick(i) {
-    console.log(ads, i);
     return () => {
       handleAdIndex(i);
     };

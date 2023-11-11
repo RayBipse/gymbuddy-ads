@@ -33,13 +33,11 @@ function App() {
       alert("An error occured while fetching user data");
     }
   };
-  console.log(userRef);
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/login");
     fetchUserData();
   }, [user, loading]);
-  console.log(adIndex, ads);
   return (
     <div className="App">
       <img className="logo-img" src="/logo.png" alt="gymbuddy" />

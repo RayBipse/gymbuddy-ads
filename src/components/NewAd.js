@@ -1,4 +1,5 @@
-import { uploadNewAd } from "../firebase.js";
+import { getUserData, uploadAdImage, uploadNewAd } from "../firebase.js";
+import { useState } from "react";
 
 export function NewAdButton({ setAds, toggleNewAdModal }) {
   return <button onClick={toggleNewAdModal}>Upload New ad</button>;
@@ -11,34 +12,34 @@ export function NewAdPopup({
   setAds,
   ads,
 }) {
+  const [title, setTitle] = useState("untitled");
+  const [imageFile, setImageFile] = useState(null);
+  const handleChangeImage = !userRef
+    ? () => {}
+    : (e) => {
+        const file = e.target.files[0];
+        setImageFile(file);
+      };
   const onUploadClick = !userRef
     ? () => {}
     : () => {
-        console.log("hi");
-        setAds([
-          ...ads,
-          {
-            key: 1,
-            title: "hello",
-            image_src:
-              "https://as1.ftcdn.net/v2/jpg/02/09/65/14/1000_F_209651427_Moux8Hkey15wtMbtLymbPPrdrLhm58fH.jpg",
-            clicks: 0,
-            views: 0,
-            screenshots: 0,
-          },
-        ]);
-        uploadNewAd(
-          {
-            key: 1,
-            title: "hello",
-            image_src:
-              "https://as1.ftcdn.net/v2/jpg/02/09/65/14/1000_F_209651427_Moux8Hkey15wtMbtLymbPPrdrLhm58fH.jpg",
-            clicks: 0,
-            views: 0,
-            screenshots: 0,
-          },
-          userRef
-        );
+        if (!imageFile) alert("no image");
+        const key = new Date().getTime();
+        getUserData(userRef).then((userDoc) => {
+          uploadAdImage(userDoc.uid, key, imageFile).then((url) => {
+            const newAd = {
+              key,
+              title: title,
+              image_src: url,
+              clicks: 0,
+              views: 0,
+              screenshots: 0,
+            };
+            console.log(newAd);
+            setAds([...ads, newAd]);
+            uploadNewAd(newAd, userRef);
+          });
+        });
       };
 
   return (
@@ -47,9 +48,13 @@ export function NewAdPopup({
         <h2>New Ad</h2>
         <section>
           <label>Title</label>
-          <input type="text"></input>
+          <input type="text" onChange={(e) => setTitle(e.target.value)}></input>
           <label>Image</label>
-          <input type="file" alt="ad image"></input>
+          <input
+            type="file"
+            alt="ad image"
+            onChange={handleChangeImage}
+          ></input>
           <button
             onClick={() => {
               onUploadClick();

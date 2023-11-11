@@ -12,12 +12,15 @@ import {
   getFirestore,
   query,
   getDocs,
+  getDoc,
   collection,
   where,
   addDoc,
   arrayUnion,
   updateDoc,
 } from "firebase/firestore";
+
+import { getStorage, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC6rQSOjEhGTSnaFk1v9FusYHE_3CMhYeU",
@@ -27,11 +30,13 @@ const firebaseConfig = {
   messagingSenderId: "228518302922",
   appId: "1:228518302922:web:175103dc189473461ad033",
   measurementId: "G-WK9F89BW1K",
+  storageBucket: "gymbuddy-ad-dashboard-dev.appspot.com",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage();
 
 const googleProvider = new GoogleAuthProvider();
 const signInWithGoogle = async () => {
@@ -100,6 +105,16 @@ const uploadNewAd = async (ad, userRef) => {
   });
 };
 
+const getUserData = async (userRef) => {
+  const snapShot = await getDoc(userRef);
+  return snapShot.data();
+};
+
+const uploadAdImage = async (uid, key, ad) => {
+  const meta = await uploadBytes(ref(storage, `${uid}/${key}`), ad);
+  return getDownloadURL(meta.ref);
+};
+
 export {
   auth,
   db,
@@ -108,5 +123,7 @@ export {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
+  getUserData,
   uploadNewAd,
+  uploadAdImage,
 };
