@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import DashboardPage from "./DashboardPage";
+import DashboardPage from "./pages/DashboardPage";
+import IndexPage from "./pages/IndexPage";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { LoginPage, RegisterPage, ResetPage } from "./UserAuth";
+import { LoginPage, RegisterPage, ResetPage } from "./pages/UserAuth";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,6 +17,7 @@ root.render(
         <Route path="/login" Component={LoginPage} />
         <Route path="/register" Component={RegisterPage} />
         <Route path="/reset" Component={ResetPage} />
+        <Route path="/" Component={IndexPage} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

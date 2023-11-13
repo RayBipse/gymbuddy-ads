@@ -6,7 +6,7 @@ import {
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
-} from "./firebase";
+} from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { Link, useNavigate } from "react-router-dom";

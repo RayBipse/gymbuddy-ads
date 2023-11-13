@@ -1,13 +1,13 @@
-import "./App.css";
+import "../App.css";
 import { useState, useReducer, useEffect } from "react";
-import AdList from "./components/AdList.js";
-import Dashboard from "./components/Dashboard";
-import { NewAdButton, NewAdPopup } from "./components/NewAd";
+import AdList from "../components/AdList.js";
+import Dashboard from "../components/Dashboard.js";
+import { NewAdButton, NewAdPopup } from "../components/NewAd.js";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { LogoutButton } from "./UserAuth";
+import { LogoutButton } from "./UserAuth.js";
 import { useNavigate } from "react-router-dom";
-import { auth, db, logout } from "./firebase";
+import { auth, db, logout } from "../firebase.js";
 import { query, collection, getDocs, where } from "firebase/firestore";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
     if (loading) return;
     if (!user) return navigate("/login");
     fetchUserData();
-  }, [user, loading]);
+  }, [user, loading, navigate]);
   return (
     <div className="App">
       <img className="logo-img" src="/logo.png" alt="gymbuddy" />
