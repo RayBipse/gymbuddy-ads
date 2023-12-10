@@ -7,15 +7,8 @@ import { NewAdButton, NewAdPopup } from "../components/NewAd.js";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { LogoutButton } from "./UserAuth.js";
 import { useNavigate } from "react-router-dom";
-import { auth, db, logout } from "../firebase.js";
-import {
-  query,
-  collection,
-  getDoc,
-  where,
-  setDoc,
-  doc,
-} from "firebase/firestore";
+import { auth, db } from "../firebase.js";
+import { getDoc, setDoc, doc } from "firebase/firestore";
 
 function App() {
   const [ads, setAds] = useState([]);

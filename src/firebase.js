@@ -91,15 +91,15 @@ export async function logout() {
   signOut(auth);
 }
 
+export async function getUserData(userRef) {
+  const snapShot = await getDoc(userRef);
+  return snapShot.data();
+}
+
 export async function uploadNewAd(ad, userRef) {
   updateDoc(userRef, {
     ads: arrayUnion(ad),
   });
-}
-
-export async function getUserData(userRef) {
-  const snapShot = await getDoc(userRef);
-  return snapShot.data();
 }
 
 export async function uploadAdImage(uid, key, ad) {
