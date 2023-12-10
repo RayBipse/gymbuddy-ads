@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import {
   GoogleAuthProvider,
   getAuth,
+  connectAuthEmulator,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -10,14 +11,12 @@ import {
 } from "firebase/auth";
 import {
   getFirestore,
-  query,
-  getDocs,
   getDoc,
   collection,
-  where,
   addDoc,
   arrayUnion,
   updateDoc,
+  connectFirestoreEmulator,
 } from "firebase/firestore";
 
 import { getStorage, getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -34,42 +33,35 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 const storage = getStorage();
-
+const emulating = false;
+if (emulating) {
+  connectFirestoreEmulator(db, "127.0.0.1", 8080);
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+}
 const googleProvider = new GoogleAuthProvider();
-const signInWithGoogle = async () => {
+
+export async function signInWithGoogle() {
   try {
     const res = await signInWithPopup(auth, googleProvider);
-    const user = res.user;
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const docs = await getDocs(q);
-    if (docs.docs.length === 0) {
-      await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: "google",
-        email: user.email,
-        ads: [],
-      });
-    }
   } catch (err) {
     console.error(err);
     alert(err.message);
   }
-};
+}
 
-const logInWithEmailAndPassword = async (email, password) => {
+export async function logInWithEmailAndPassword(email, password) {
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     console.error(err);
     alert(err.message);
   }
-};
+}
 
-const registerWithEmailAndPassword = async (email, password) => {
+export async function registerWithEmailAndPassword(email, password) {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -83,9 +75,9 @@ const registerWithEmailAndPassword = async (email, password) => {
     console.error(err);
     alert(err.message);
   }
-};
+}
 
-const sendPasswordReset = async (email) => {
+export async function sendPasswordReset(email) {
   try {
     await sendPasswordResetEmail(auth, email);
     alert("Password reset link sent!");
@@ -93,37 +85,24 @@ const sendPasswordReset = async (email) => {
     console.error(err);
     alert(err.message);
   }
-};
+}
 
-const logout = () => {
+export async function logout() {
   signOut(auth);
-};
+}
 
-const uploadNewAd = async (ad, userRef) => {
+export async function uploadNewAd(ad, userRef) {
   updateDoc(userRef, {
     ads: arrayUnion(ad),
   });
-};
+}
 
-const getUserData = async (userRef) => {
+export async function getUserData(userRef) {
   const snapShot = await getDoc(userRef);
   return snapShot.data();
-};
+}
 
-const uploadAdImage = async (uid, key, ad) => {
+export async function uploadAdImage(uid, key, ad) {
   const meta = await uploadBytes(ref(storage, `${uid}/${key}`), ad);
   return getDownloadURL(meta.ref);
-};
-
-export {
-  auth,
-  db,
-  signInWithGoogle,
-  logInWithEmailAndPassword,
-  registerWithEmailAndPassword,
-  sendPasswordReset,
-  logout,
-  getUserData,
-  uploadNewAd,
-  uploadAdImage,
-};
+}
