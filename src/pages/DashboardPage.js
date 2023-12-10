@@ -8,7 +8,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { LogoutButton } from "./UserAuth.js";
 import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "../firebase.js";
-import { query, collection, getDocs, where } from "firebase/firestore";
+import {
+  query,
+  collection,
+  getDoc,
+  where,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 
 function App() {
   const [ads, setAds] = useState([]);
@@ -23,11 +30,21 @@ function App() {
   const navigate = useNavigate();
   const fetchUserData = async () => {
     try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
+      console.log("hello");
+      console.log(user.uid);
+      const q = doc(db, "users", user.uid);
+      const docSnap = await getDoc(q);
+      if (!docSnap.exists()) {
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          ads: [],
+        });
+      }
+      const data = docSnap.data();
       setAds(data.ads || []);
-      setUserRef(doc.docs[0].ref);
+      setUserRef(docSnap.ref);
     } catch (err) {
       console.error(err);
       alert("An error occured while fetching user data");

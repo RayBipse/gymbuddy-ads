@@ -1,0 +1,14 @@
+22:36:45.051 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+22:36:45.129 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+22:36:48.136 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - gymbuddy-ad-dashboard-dev-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 58ms, init: 0ms
+22:36:48.162 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace gymbuddy-ad-dashboard-dev-default-rtdb status Active to Active
+22:37:47.992 [FirebaseWorkerPool-1-4] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
+namespace gymbuddy-ad-dashboard-dev, but the emulator is configured for gymbuddy-ad-dashboard-dev-default-rtdb. To 
+opt-out of single project mode add/set the singleProjectMode: false property in 
+the firebase.json emulators config. 
+22:37:48.001 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - gymbuddy-ad-dashboard-dev successfully activated FBKV (SurveyIdle(0)) wait: 3ms, init: 0ms
+22:58:11.239 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+22:58:11.247 [NamespaceSystem-akka.actor.default-dispatcher-18] INFO com.firebase.core.namespace.Terminator$Terminator - 2 actors left to terminate: gymbuddy-ad-dashboard-dev, gymbuddy-ad-dashboard-dev-default-rtdb
+22:58:11.251 [NamespaceSystem-akka.actor.default-dispatcher-19] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for gymbuddy-ad-dashboard-dev
+22:58:11.251 [NamespaceSystem-akka.actor.default-dispatcher-18] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for gymbuddy-ad-dashboard-dev-default-rtdb
+22:58:11.256 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
