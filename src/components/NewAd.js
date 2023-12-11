@@ -1,4 +1,4 @@
-import { getUserData, uploadAdImage } from "../firebase.js";
+import { uploadAdImage } from "../firebase.js";
 import { useState } from "react";
 import { Ad } from "../models/Ad.js";
 
@@ -24,13 +24,11 @@ export function NewAdPopup({ user, dispatchUser, toggleNewAdModal, isNewAdModalO
     const onUploadClick = () => {
         if (!imageFile) alert("no image");
         const key = new Date().getTime();
-        getUserData(user.ref).then((userDoc) => {
-            uploadAdImage(userDoc.uid, key, imageFile).then((url) => {
-                const newAd = Ad.fromNewAd(key, title, url);
-                dispatchUser({
-                    type: "add ad",
-                    ad: newAd,
-                });
+        uploadAdImage(user.uid, key, imageFile).then((url) => {
+            const newAd = Ad.fromNewAd(key, title, url);
+            dispatchUser({
+                type: "add ad",
+                ad: newAd,
             });
         });
         toggleNewAdModal();
