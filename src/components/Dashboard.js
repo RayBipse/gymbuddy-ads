@@ -23,9 +23,7 @@ export default function Dashboard({ user, adIndex }) {
                     <div className="metric-value">{ad.screenshots}</div>
                 </div>
             </div>
-            <div className="image-container">
-                <img src={ad.image_src} alt="ad"></img>
-            </div>
+            <div className="image-container">{ad.image_src !== "" && <img src={ad.image_src} alt="ad"></img>}</div>
         </section>
     );
 }

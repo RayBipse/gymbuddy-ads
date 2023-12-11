@@ -63,7 +63,7 @@ export async function registerWithEmailAndPassword(email, password) {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
-        await addDoc(collection(db, "users"), {
+        await setDoc(collection(db, "users"), {
             uid: user.uid,
             authProvider: "local",
             email,
@@ -94,10 +94,11 @@ export async function getUserData(userRef) {
     return snapShot.data();
 }
 
-export async function uploadNewAd(ad, userRef) {
-    updateDoc(userRef, {
+export async function uploadNewAd(ad, user) {
+    updateDoc(user.ref, {
         ads: arrayUnion(ad.toObject()),
     });
+    setDoc(doc(db, "ads", `${user.uid}-${ad.key}`), ad.toPublic(user));
 }
 
 export async function uploadAdImage(url, image) {

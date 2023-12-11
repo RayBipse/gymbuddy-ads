@@ -13,13 +13,13 @@ export class User {
         this.ads = ads;
     }
 
-    static fromUserData(userData) {
+    static fromObject({ ref, uid, name, email, ads }) {
         return new User(
-            userData.ref,
-            userData.uid,
-            userData.name,
-            userData.email,
-            userData.ads.map((x) => Ad.fromObject(x))
+            ref,
+            uid,
+            name,
+            email,
+            ads.map((x) => Ad.fromObject(x))
         );
     }
 
@@ -48,7 +48,7 @@ export function userReducer(user, action) {
             return action.user;
         }
         case "add ad": {
-            uploadNewAd(action.ad, user.ref);
+            uploadNewAd(action.ad, user);
             return new User(user.ref, user.uid, user.name, user.email, [...user.ads, action.ad]);
         }
         case "remove ad": {

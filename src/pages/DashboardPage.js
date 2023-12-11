@@ -17,8 +17,6 @@ function App() {
     const [adIndex, setAdIndex] = useState(-1);
     const [isNewAdModalOpen, toggleNewAdModal] = useReducer((state) => !state, false);
 
-    console.log(user.toObject());
-
     const navigate = useNavigate();
     const fetchUserData = useCallback(async () => {
         try {
@@ -26,7 +24,7 @@ function App() {
             const userData = userSnapshot.data();
             dispatchUser({
                 type: "set user",
-                user: User.fromUserData({ ref: userSnapshot.ref, ...userData }),
+                user: User.fromObject({ ...userData, ref: userSnapshot.ref }),
             });
         } catch (err) {
             console.error(err);

@@ -21,4 +21,12 @@ export class Ad {
     toObject() {
         return { ...this };
     }
+
+    // return object for public
+    toPublic(user) {
+        return {
+            author: user.uid,
+            image_src: this.image_src,
+        };
+    }
 }

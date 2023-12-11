@@ -24,13 +24,7 @@ export function NewAdPopup({ user, dispatchUser, toggleNewAdModal, isNewAdModalO
     const onUploadClick = () => {
         if (!imageFile) alert("no image");
         const adKey = user.adsMex();
-        console.log(imageFile);
-        const read = new FileReader();
-        read.readAsBinaryString(imageFile);
-        read.onloadend = function () {
-            console.log(read.result);
-        };
-        // .${imageFile.name.split(".").splice(-1)[0]}
+        if (adKey > 9) return alert("max number of ads reached");
         uploadAdImage(`ads/${user.uid}-${adKey}`, imageFile).then((url) => {
             const newAd = Ad.fromNewAd(adKey, title, url);
             dispatchUser({
