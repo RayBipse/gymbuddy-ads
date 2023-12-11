@@ -8,7 +8,7 @@ export class Ad {
         this.screenshots = screenshots;
     }
 
-    fromNewAd(key, title, image_src) {
+    static fromNewAd(key, title, image_src) {
         return new Ad(key, title, image_src, 0, 0, 0);
     }
 
