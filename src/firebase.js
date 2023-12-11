@@ -78,7 +78,7 @@ export async function registerWithEmailAndPassword(email, password) {
 export async function sendPasswordReset(email) {
     try {
         await sendPasswordResetEmail(auth, email);
-        alert("Password reset link sent!");
+        alert("Password reset link sent");
     } catch (err) {
         console.error(err);
         alert(err.message);
@@ -89,18 +89,18 @@ export async function logout() {
     signOut(auth);
 }
 
-// export async function getUserData(userRef) {
-//     const snapShot = await getDoc(userRef);
-//     return snapShot.data();
-// }
+export async function getUserData(userRef) {
+    const snapShot = await getDoc(userRef);
+    return snapShot.data();
+}
 
 export async function uploadNewAd(ad, userRef) {
     updateDoc(userRef, {
-        ads: arrayUnion(ad),
+        ads: arrayUnion(ad.toObject()),
     });
 }
 
-export async function uploadAdImage(uid, key, ad) {
-    const meta = await uploadBytes(ref(storage, `${uid}/${key}`), ad);
+export async function uploadAdImage(url, image) {
+    const meta = await uploadBytes(ref(storage, url), image);
     return getDownloadURL(meta.ref);
 }

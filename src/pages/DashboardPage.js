@@ -7,24 +7,26 @@ import { NewAdButton, NewAdPopup } from "../components/NewAd.js";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { LogoutButton } from "./UserAuth.js";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase.js";
+import { db, auth } from "../firebase.js";
 import { getDoc, doc } from "firebase/firestore";
 import { User, userReducer } from "../models/User.js";
 
 function App() {
     const [firebaseUser, loading, error] = useAuthState(auth);
-    const [user, dispatchUser] = useReducer(userReducer, null);
+    const [user, dispatchUser] = useReducer(userReducer, User.placeholder);
     const [adIndex, setAdIndex] = useState(-1);
     const [isNewAdModalOpen, toggleNewAdModal] = useReducer((state) => !state, false);
+
+    console.log(user.toObject());
 
     const navigate = useNavigate();
     const fetchUserData = useCallback(async () => {
         try {
-            const userSnapshot = await getDoc(doc("users", firebaseUser.uid));
-            const userData = userSnapshot.data;
+            const userSnapshot = await getDoc(doc(db, "users", firebaseUser.uid));
+            const userData = userSnapshot.data();
             dispatchUser({
                 type: "set user",
-                user: User.fromUserData(userData),
+                user: User.fromUserData({ ref: userSnapshot.ref, ...userData }),
             });
         } catch (err) {
             console.error(err);
@@ -36,9 +38,9 @@ function App() {
     useEffect(() => {
         if (loading) return;
         if (error) navigate("/login");
-        if (!user) return navigate("/login");
+        if (!firebaseUser) return navigate("/login");
         fetchUserData();
-    }, [user, loading, error, navigate, fetchUserData]);
+    }, [firebaseUser, loading, error, fetchUserData, navigate]);
 
     return (
         <div className="App">

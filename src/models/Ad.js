@@ -12,5 +12,13 @@ export class Ad {
         return new Ad(key, title, image_src, 0, 0, 0);
     }
 
+    static fromObject({ key, title, image_src, clicks, views, screenshots }) {
+        return new Ad(key, title, image_src, clicks, views, screenshots);
+    }
+
     static placeholder = new Ad(-1, "none", "", 0, 0, 0);
+
+    toObject() {
+        return { ...this };
+    }
 }

@@ -6,7 +6,7 @@ export function NewAdButton({ toggleNewAdModal }) {
     return <button onClick={toggleNewAdModal}>Upload New ad</button>;
 }
 
-const allowedFileTypes = [".jpg", ".png"];
+const allowedFileTypes = [".jpg", ".jpeg", ".png"];
 
 export function NewAdPopup({ user, dispatchUser, toggleNewAdModal, isNewAdModalOpen }) {
     const [title, setTitle] = useState("untitled");
@@ -14,7 +14,7 @@ export function NewAdPopup({ user, dispatchUser, toggleNewAdModal, isNewAdModalO
 
     const handleChangeImage = (e) => {
         const file = e.target.files[0];
-        if (file && allowedFileTypes.some((x) => file.endsWith(x))) {
+        if (file && allowedFileTypes.some((x) => file.name.endsWith(x))) {
             setImageFile(file);
         } else {
             alert(`Invalid file type, only ${allowedFileTypes} allowed`);
@@ -23,9 +23,16 @@ export function NewAdPopup({ user, dispatchUser, toggleNewAdModal, isNewAdModalO
 
     const onUploadClick = () => {
         if (!imageFile) alert("no image");
-        const key = new Date().getTime();
-        uploadAdImage(user.uid, key, imageFile).then((url) => {
-            const newAd = Ad.fromNewAd(key, title, url);
+        const adKey = user.adsMex();
+        console.log(imageFile);
+        const read = new FileReader();
+        read.readAsBinaryString(imageFile);
+        read.onloadend = function () {
+            console.log(read.result);
+        };
+        // .${imageFile.name.split(".").splice(-1)[0]}
+        uploadAdImage(`ads/${user.uid}-${adKey}`, imageFile).then((url) => {
+            const newAd = Ad.fromNewAd(adKey, title, url);
             dispatchUser({
                 type: "add ad",
                 ad: newAd,
